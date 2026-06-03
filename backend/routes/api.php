@@ -10,6 +10,9 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
+// ─── Health check (Railway deployment) ───────────────────────────────────────
+Route::get('health', fn () => response()->json(['status' => 'ok', 'timestamp' => now()]));
+
 // ─── Public Auth routes ───────────────────────────────────────────────────────
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
