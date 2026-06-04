@@ -27,6 +27,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Silver',
                 'license_plate' => 'ABC-1001',
+                'image'         => 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800&q=80',
             ],
             [
                 'brand'         => 'Ford',
@@ -41,6 +42,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 7,
                 'color'         => 'White',
                 'license_plate' => 'ABC-1002',
+                'image'         => 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',
             ],
             [
                 'brand'         => 'Tesla',
@@ -55,6 +57,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Red',
                 'license_plate' => 'ABC-1003',
+                'image'         => 'https://images.unsplash.com/photo-1536700503339-1e771d4c14d4?w=800&q=80',
             ],
             [
                 'brand'         => 'BMW',
@@ -69,6 +72,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Black',
                 'license_plate' => 'ABC-1004',
+                'image'         => 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',
             ],
             [
                 'brand'         => 'Chevrolet',
@@ -83,6 +87,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Blue',
                 'license_plate' => 'ABC-1005',
+                'image'         => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
             ],
             [
                 'brand'         => 'Honda',
@@ -97,6 +102,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Gray',
                 'license_plate' => 'ABC-1006',
+                'image'         => 'https://images.unsplash.com/photo-1606611013016-969c19ba27bb?w=800&q=80',
             ],
             [
                 'brand'         => 'Mercedes-Benz',
@@ -111,6 +117,7 @@ class VehicleSeeder extends Seeder
                 'seats'         => 9,
                 'color'         => 'White',
                 'license_plate' => 'ABC-1007',
+                'image'         => 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80',
             ],
             [
                 'brand'         => 'Porsche',
@@ -125,11 +132,12 @@ class VehicleSeeder extends Seeder
                 'seats'         => 5,
                 'color'         => 'Midnight Blue',
                 'license_plate' => 'ABC-1008',
+                'image'         => 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80',
             ],
         ];
 
         foreach ($vehicles as $vehicle) {
-            Vehicle::firstOrCreate(
+            Vehicle::updateOrCreate(
                 ['license_plate' => $vehicle['license_plate']],
                 array_merge($vehicle, ['created_by' => $createdBy])
             );
