@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarsRental — Project Explanation</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.75;
+      color: #1a1a2e;
+      background: #f4f6fb;
+      padding: 0;
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 2rem;
+      page-break-after: always;
+    }
+    .cover .logo-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+    }
+    .cover h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cover .subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+    .cover .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+    .cover .meta-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 1.2rem 1rem;
+      backdrop-filter: blur(10px);
+    }
+    .cover .meta-card .meta-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.35rem;
+    }
+    .cover .meta-card .meta-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .cover .badge-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cover .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Main content wrapper ── */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2.2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      page-break-inside: avoid;
+    }
+
+    /* ── Headings ── */
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #e94560, #f5a623);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0f3460;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #f0f2f8;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-top: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+    p { margin-bottom: 0.85rem; color: #444; }
+
+    /* ── Info box ── */
+    .info-box {
+      background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+      border-left: 4px solid #3b82f6;
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      font-size: 0.92rem;
+      color: #1e40af;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── Folder tree ── */
+    .tree {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .tree .dir  { color: #60a5fa; font-weight: 600; }
+    .tree .file { color: #a3e635; }
+    .tree .note { color: #94a3b8; font-style: italic; }
+
+    /* ── Code block ── */
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    code { font-family: inherit; }
+    .kw  { color: #f472b6; }
+    .fn  { color: #60a5fa; }
+    .str { color: #a3e635; }
+    .cm  { color: #64748b; font-style: italic; }
+    .cls { color: #fbbf24; }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+    }
+    thead tr {
+      background: linear-gradient(135deg, #0f3460, #16213e);
+      color: #fff;
+    }
+    thead th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    tbody tr:nth-child(even) { background: #f8faff; }
+    tbody tr:hover { background: #eff6ff; }
+    tbody td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid #e8ecf4;
+      color: #374151;
+    }
+    tbody td:first-child { font-weight: 600; color: #0f3460; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+
+    /* ── Step list ── */
+    .steps { list-style: none; counter-reset: steps; margin: 0; padding: 0; }
+    .steps li {
+      counter-increment: steps;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(steps);
+      min-width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #0f3460, #e94560);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .steps li .step-title { font-weight: 700; color: #0f3460; }
+    .steps li .step-body  { color: #555; font-size: 0.9rem; margin-top: 0.2rem; }
+
+    /* ── Tech grid ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin: 1rem 0;
+    }
+    .tech-card {
+      background: #f8faff;
+      border: 1px solid #e2e8f4;
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+    .tech-card .tech-name { font-weight: 700; color: #0f3460; font-size: 0.88rem; }
+    .tech-card .tech-desc { font-size: 0.78rem; color: #6b7280; margin-top: 0.2rem; }
+
+    /* ── Role badges ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .role-card {
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      border: 2px solid;
+    }
+    .role-card.super-admin { background: #faf5ff; border-color: #a855f7; }
+    .role-card.admin       { background: #eef2ff; border-color: #6366f1; }
+    .role-card.manager     { background: #eff6ff; border-color: #3b82f6; }
+    .role-card.client      { background: #f0fdf4; border-color: #22c55e; }
+    .role-card .role-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .role-card.super-admin .role-title { color: #7e22ce; }
+    .role-card.admin       .role-title { color: #4338ca; }
+    .role-card.manager     .role-title { color: #1d4ed8; }
+    .role-card.client      .role-title { color: #15803d; }
+    .role-card ul { list-style: none; padding: 0; }
+    .role-card ul li { font-size: 0.82rem; color: #555; padding: 0.15rem 0; }
+    .role-card ul li::before { content: "✓ "; font-weight: 700; }
+
+    /* ── Highlight box ── */
+    .highlight {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: #92400e;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #0f172a;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.82rem;
+      margin-top: 2rem;
+    }
+    .footer strong { color: #fff; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; }
+      .cover { min-height: 100vh; page-break-after: always; }
+      .section { box-shadow: none; border: 1px solid #e5e7eb; page-break-inside: avoid; }
+      .content { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     COVER PAGE
+══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="logo-icon">🚗</div>
+  <h1>CarsRental</h1>
+  <p class="subtitle">Full-Stack Project Documentation &amp; Technical Explanation</p>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="meta-label">Frontend</div>
+      <div class="meta-value">React 19 + Vite</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Backend</div>
+      <div class="meta-value">Laravel 12 (PHP)</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Architecture</div>
+      <div class="meta-value">REST API + SPA</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Auth</div>
+      <div class="meta-value">JWT Tokens</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Roles</div>
+      <div class="meta-value">4 User Roles</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Payments</div>
+      <div class="meta-value">PayPal + Mock</div>
+    </div>
+  </div>
+
+  <div class="badge-row">
+    <span class="badge">🎨 Tailwind CSS</span>
+    <span class="badge">🔐 Role-Based Access</span>
+    <span class="badge">💳 PayPal Integration</span>
+    <span class="badge">🤖 Chatbot</span>
+    <span class="badge">🌙 Dark Mode</span>
+    <span class="badge">📱 Responsive UI</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════ -->
+<div class="content">
+
+  <!-- 1. What Is This Project -->
+  <div class="section">
+    <h2><span class="section-number">1</span>What Is This Project?</h2>
+    <p>
+      <strong>CarsRental</strong> is a complete, production-ready <strong>car rental management platform</strong>.
+      Think of it as a mini version of Hertz or Enterprise Rent-A-Car — built entirely from scratch with modern
+      web technologies.
+    </p>
+    <div class="info-box">
+      <strong>In simple words:</strong> Customers visit the website, browse available cars, pick dates,
+      book a car, and pay online. Staff (admins and managers) manage the cars, approve bookings,
+      and monitor business performance — all from the same system.
+    </div>
+    <p>
+      The system handles the full rental cycle: user registration and login, vehicle catalog with
+      filtering, availability checking, reservation creation, payment processing, and dashboard analytics.
+      There is even a built-in chatbot for customer support.
+    </p>
+  </div>
+
+  <!-- 2. Main Goal -->
+  <div class="section">
+    <h2><span class="section-number">2</span>Main Idea &amp; Goal</h2>
+    <div class="highlight">
+      🎯 <strong>Goal:</strong> "Build a platform where customers can rent cars online, and rental
+      staff can manage the entire operation — vehicles, bookings, payments, and users — all in one place."
+    </div>
+
+    <h3>Key Problems It Solves</h3>
+    <table>
+      <thead><tr><th>Problem</th><th>Solution in CarsRental</th></tr></thead>
+      <tbody>
+        <tr><td>How does a customer find an available car?</td><td>Filter by dates, category, price, fuel type — real-time availability check</td></tr>
+        <tr><td>How does a client pay?</td><td>PayPal integration + mock payment for testing</td></tr>
+        <tr><td>How does an admin manage bookings?</td><td>Admin dashboard with confirm/cancel controls</td></tr>
+        <tr><td>How are roles enforced?</td><td>JWT middleware + Spatie roles on every API route</td></tr>
+        <tr><td>How is data kept safe?</td><td>Form validation, soft-deletes, activity logging</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. Folder Structure -->
+  <div class="section">
+    <h2><span class="section-number">3</span>Folder Structure</h2>
+    <p>The project is a <strong>monorepo</strong> — both the frontend and backend live inside one parent folder.</p>
+
+    <h3>Top Level</h3>
+    <div class="tree">
+<span class="dir">CarsRental-main/</span>
+├── <span class="dir">frontend/</span>     <span class="note">← React app (what the user sees in the browser)</span>
+└── <span class="dir">backend/</span>      <span class="note">← Laravel API (the server that handles all data)</span>
+    </div>
+
+    <h3>Frontend — <code>frontend/src/</code></h3>
+    <div class="tree">
+<span class="dir">src/</span>
+├── <span class="dir">pages/</span>              <span class="note">← Every screen of the app</span>
+│   ├── <span class="dir">auth/</span>           <span class="note">← Login.jsx, Register.jsx</span>
+│   ├── <span class="dir">client/</span>         <span class="note">← Dashboard, Vehicles, Reservations, Profile</span>
+│   └── <span class="dir">admin/</span>          <span class="note">← Dashboard, Vehicles, Reservations, Users, Profile</span>
+├── <span class="dir">components/</span>         <span class="note">← Reusable UI pieces</span>
+│   ├── <span class="dir">common/</span>         <span class="note">← Modal, LoadingSpinner, Pagination, etc.</span>
+│   ├── <span class="dir">vehicles/</span>       <span class="note">← VehicleCard, VehicleFilters</span>
+│   ├── <span class="dir">reservations/</span>   <span class="note">← ReservationCard, ReservationTable</span>
+│   └── <span class="dir">chat/</span>           <span class="note">← Chatbot widget</span>
+├── <span class="dir">context/</span>            <span class="note">← Global state management</span>
+│   ├── <span class="file">AuthContext.jsx</span>     <span class="note">← Who is logged in</span>
+│   ├── <span class="file">ThemeContext.jsx</span>    <span class="note">← Dark / Light mode</span>
+│   └── <span class="file">ToastContext.jsx</span>    <span class="note">← Pop-up notifications</span>
+├── <span class="dir">layouts/</span>            <span class="note">← Page wrappers (with nav, sidebar, video bg)</span>
+│   ├── <span class="file">AuthLayout.jsx</span>      <span class="note">← Login/Register wrapper (video background)</span>
+│   ├── <span class="file">ClientLayout.jsx</span>    <span class="note">← Client nav + sidebar</span>
+│   └── <span class="file">AdminLayout.jsx</span>     <span class="note">← Admin nav + sidebar</span>
+├── <span class="dir">services/</span>           <span class="note">← Functions that talk to the API</span>
+│   ├── <span class="file">api.js</span>              <span class="note">← Axios base instance with JWT token</span>
+│   ├── <span class="file">authService.js</span>      <span class="note">← login, logout, register, me</span>
+│   ├── <span class="file">vehicleService.js</span>   <span class="note">← list, get, create, update, delete</span>
+│   ├── <span class="file">reservationService.js</span><span class="note">← book, confirm, cancel, availability</span>
+│   ├── <span class="file">paymentService.js</span>   <span class="note">← PayPal flow, mock payment</span>
+│   └── <span class="file">chatService.js</span>      <span class="note">← Send/receive chatbot messages</span>
+├── <span class="dir">hooks/</span>              <span class="note">← Custom React logic</span>
+│   └── <span class="file">useChat.js</span>          <span class="note">← Chat session + message state</span>
+└── <span class="dir">utils/</span>              <span class="note">← Shared helpers</span>
+    ├── <span class="file">constants.js</span>        <span class="note">← ROLES, VEHICLE_CATEGORIES, STATUS values</span>
+    └── <span class="file">helpers.js</span>          <span class="note">← formatCurrency, calcDays, formatDate</span>
+    </div>
+
+    <h3>Backend — <code>backend/app/</code></h3>
+    <div class="tree">
+<span class="dir">app/</span>
+├── <span class="dir">Http/</span>
+│   ├── <span class="dir">Controllers/</span>        <span class="note">← Handle incoming API requests</span>
+│   │   ├── <span class="file">VehicleController.php</span>
+│   │   ├── <span class="file">ReservationController.php</span>
+│   │   ├── <span class="file">PaymentController.php</span>
+│   │   ├── <span class="file">ChatController.php</span>
+│   │   ├── <span class="file">UploadController.php</span>
+│   │   ├── <span class="dir">Auth/</span>  <span class="file">AuthController.php</span>
+│   │   ├── <span class="dir">Admin/</span> <span class="file">DashboardController.php, UserController.php</span>
+│   │   └── <span class="dir">Client/</span><span class="file">DashboardController.php</span>
+│   ├── <span class="dir">Middleware/</span>
+│   │   ├── <span class="file">JwtMiddleware.php</span>       <span class="note">← Verify token on every request</span>
+│   │   └── <span class="file">RoleMiddleware.php</span>      <span class="note">← Block wrong roles</span>
+│   └── <span class="dir">Requests/</span>               <span class="note">← Form validation classes</span>
+├── <span class="dir">Models/</span>                 <span class="note">← Database table representations</span>
+│   ├── <span class="file">User.php</span>
+│   ├── <span class="file">Vehicle.php</span>
+│   ├── <span class="file">Reservation.php</span>
+│   ├── <span class="file">Payment.php</span>
+│   ├── <span class="file">ChatMessage.php</span>
+│   ├── <span class="file">ChatSession.php</span>
+│   └── <span class="file">ActivityLog.php</span>
+├── <span class="dir">Services/</span>               <span class="note">← Business logic (rules, calculations)</span>
+└── <span class="dir">Repositories/</span>           <span class="note">← Database query abstraction</span>
+    </div>
+  </div>
+
+  <!-- 4. Main Files & Their Role -->
+  <div class="section">
+    <h2><span class="section-number">4</span>Main Files &amp; Their Role</h2>
+
+    <h3>Frontend Files</h3>
+    <table>
+      <thead><tr><th>File</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td>AuthContext.jsx</td><td>Stores who is logged in globally; exposes login, logout, register, isAdmin()</td></tr>
+        <tr><td>services/api.js</td><td>The Axios HTTP client — automatically attaches the JWT token to every request</td></tr>
+        <tr><td>AuthLayout.jsx</td><td>Wraps login/register pages; renders the YouTube video background</td></tr>
+        <tr><td>pages/auth/Login.jsx</td><td>The login form; includes demo account quick-login buttons</td></tr>
+        <tr><td>pages/auth/Register.jsx</td><td>New user registration form with validation</td></tr>
+        <tr><td>pages/client/Vehicles.jsx</td><td>Browse &amp; filter cars; booking modal with real-time availability check</td></tr>
+        <tr><td>pages/client/Reservations.jsx</td><td>My bookings — view status, pay, or cancel</td></tr>
+        <tr><td>pages/admin/Dashboard.jsx</td><td>Analytics: total revenue, reservations count, vehicles, recent activity</td></tr>
+        <tr><td>pages/admin/Vehicles.jsx</td><td>Create, edit, delete vehicles; manage fleet</td></tr>
+        <tr><td>pages/admin/Users.jsx</td><td>View and manage all users; toggle active/inactive status</td></tr>
+        <tr><td>utils/constants.js</td><td>Shared enums: ROLES, STATUS values, VEHICLE_CATEGORIES</td></tr>
+        <tr><td>utils/helpers.js</td><td>formatCurrency(), calcDays(), formatDate() — used everywhere</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Backend Files</h3>
+    <table>
+      <thead><tr><th>File</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td>routes/api.php</td><td>Maps every URL to a controller method; groups by role</td></tr>
+        <tr><td>Auth/AuthController.php</td><td>register, login, logout, me, refresh token</td></tr>
+        <tr><td>VehicleController.php</td><td>CRUD for vehicles; date-based availability filtering</td></tr>
+        <tr><td>ReservationController.php</td><td>Create booking, confirm (admin), cancel, check availability</td></tr>
+        <tr><td>PaymentController.php</td><td>Initiate PayPal payment, capture, mock payment option</td></tr>
+        <tr><td>Middleware/JwtMiddleware.php</td><td>Reads the token from headers; rejects unauthenticated requests</td></tr>
+        <tr><td>Middleware/RoleMiddleware.php</td><td>Checks the user's role before allowing access to sensitive routes</td></tr>
+        <tr><td>Models/Reservation.php</td><td>Database model; has scopes (pending, confirmed, active), soft-deletes</td></tr>
+        <tr><td>Services/ReservationService.php</td><td>Business logic: date conflict detection, price calculation</td></tr>
+        <tr><td>Traits/ApiResponse.php</td><td>Ensures all API responses share the same JSON format</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. How It Works Step by Step -->
+  <div class="section">
+    <h2><span class="section-number">5</span>How It Works — Step by Step</h2>
+    <ul class="steps">
+      <li>
+        <div>
+          <div class="step-title">App Loads in Browser</div>
+          <div class="step-body">
+            React starts. <code>AuthContext</code> reads <code>localStorage</code> for a saved JWT token.
+            If a token exists, it calls <code>GET /api/auth/me</code> to verify it's still valid.
+            If not logged in → the user is redirected to <code>/login</code>.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">User Logs In</div>
+          <div class="step-body">
+            <code>Login.jsx</code> collects email + password. <code>authService.login()</code>
+            sends <code>POST /api/auth/login</code> to Laravel. Laravel validates credentials,
+            signs a JWT token, and returns it with the user object. The token is saved to
+            <code>localStorage</code> and the user is redirected to their dashboard.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">Client Browses Vehicles</div>
+          <div class="step-body">
+            <code>client/Vehicles.jsx</code> calls <code>vehicleService.list()</code> →
+            <code>GET /api/vehicles</code>. Supports live filters: category, brand, transmission,
+            fuel type, price range, and date range. The backend checks for date conflicts with
+            existing reservations automatically.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">Client Books a Car</div>
+          <div class="step-body">
+            A booking modal opens. The client picks start and end dates. As they type,
+            <code>reservationService.checkAvailability()</code> fires automatically and shows
+            "Available ✓" or "Not Available ✗". On confirm, <code>POST /api/reservations</code>
+            creates the booking with status <strong>pending</strong>.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">Admin Confirms the Reservation</div>
+          <div class="step-body">
+            The admin sees a pending reservation on their panel and clicks Confirm.
+            <code>PATCH /api/reservations/{id}/confirm</code> updates the status to
+            <strong>confirmed</strong>. An activity log entry is created for the audit trail.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">Client Pays</div>
+          <div class="step-body">
+            The client opens their reservation and clicks Pay. They choose PayPal or mock payment.
+            PayPal redirects to PayPal's site for approval, then returns to the app.
+            The backend captures the payment and marks the reservation as <strong>paid</strong>.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-title">Analytics Updated</div>
+          <div class="step-body">
+            The admin dashboard (<code>GET /api/admin/dashboard</code>) aggregates totals:
+            revenue, active reservations, total vehicles, new users this month —
+            displayed as stat cards with charts.
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 6. Technologies Used -->
+  <div class="section">
+    <h2><span class="section-number">6</span>Technologies Used</h2>
+
+    <h3>Frontend Stack</h3>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-name">React 19</div><div class="tech-desc">UI framework — builds every page and component</div></div>
+      <div class="tech-card"><div class="tech-name">React Router 7</div><div class="tech-desc">Client-side page navigation without full reloads</div></div>
+      <div class="tech-card"><div class="tech-name">Vite</div><div class="tech-desc">Fast development build tool — replaces Create React App</div></div>
+      <div class="tech-card"><div class="tech-name">Tailwind CSS</div><div class="tech-desc">Utility-first CSS — styles everything without custom CSS files</div></div>
+      <div class="tech-card"><div class="tech-name">Axios</div><div class="tech-desc">HTTP client — sends requests to the Laravel API</div></div>
+      <div class="tech-card"><div class="tech-name">React Hook Form</div><div class="tech-desc">Form state management — handles input, errors, submit</div></div>
+      <div class="tech-card"><div class="tech-name">Zod</div><div class="tech-desc">Schema validation — validates form data before submitting</div></div>
+      <div class="tech-card"><div class="tech-name">Lucide React</div><div class="tech-desc">Icon library — consistent SVG icons throughout the UI</div></div>
+      <div class="tech-card"><div class="tech-name">React Hot Toast</div><div class="tech-desc">Pop-up notifications — success, error, loading states</div></div>
+      <div class="tech-card"><div class="tech-name">date-fns</div><div class="tech-desc">Date utilities — calculate rental days, format dates</div></div>
+    </div>
+
+    <h3>Backend Stack</h3>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-name">Laravel 12</div><div class="tech-desc">PHP framework — handles routing, validation, ORM, everything</div></div>
+      <div class="tech-card"><div class="tech-name">PHP 8.2+</div><div class="tech-desc">Server language — powers the entire backend</div></div>
+      <div class="tech-card"><div class="tech-name">JWT Auth</div><div class="tech-desc">Stateless token-based authentication (tymon/jwt-auth)</div></div>
+      <div class="tech-card"><div class="tech-name">Spatie Permission</div><div class="tech-desc">Role-based access control — assigns roles to users</div></div>
+      <div class="tech-card"><div class="tech-name">Eloquent ORM</div><div class="tech-desc">Database interaction using PHP model classes</div></div>
+      <div class="tech-card"><div class="tech-name">MySQL/PostgreSQL</div><div class="tech-desc">Relational database — stores all app data</div></div>
+      <div class="tech-card"><div class="tech-name">PHPUnit</div><div class="tech-desc">Automated testing — verifies business logic correctness</div></div>
+      <div class="tech-card"><div class="tech-name">Laravel Sail</div><div class="tech-desc">Docker-based dev environment for easy local setup</div></div>
+    </div>
+  </div>
+
+  <!-- 7. The 4 User Roles -->
+  <div class="section">
+    <h2><span class="section-number">7</span>The 4 User Roles</h2>
+    <p>Every user has a role assigned in the database. Each role unlocks different routes, pages, and capabilities.</p>
+    <div class="role-grid">
+      <div class="role-card super-admin">
+        <div class="role-title">👑 Super Admin</div>
+        <ul>
+          <li>Full system access</li>
+          <li>Manage all users (create, edit, delete)</li>
+          <li>Access all admin dashboards</li>
+          <li>Override any reservation or payment</li>
+          <li>View complete activity logs</li>
+        </ul>
+      </div>
+      <div class="role-card admin">
+        <div class="role-title">🛡️ Admin</div>
+        <ul>
+          <li>Manage vehicles (add, edit, delete)</li>
+          <li>Manage all reservations</li>
+          <li>View user list (no delete)</li>
+          <li>Access analytics dashboard</li>
+          <li>Confirm and cancel bookings</li>
+        </ul>
+      </div>
+      <div class="role-card manager">
+        <div class="role-title">📋 Manager</div>
+        <ul>
+          <li>Manage vehicles only</li>
+          <li>Confirm / cancel reservations</li>
+          <li>View manager dashboard</li>
+          <li>Cannot manage users</li>
+        </ul>
+      </div>
+      <div class="role-card client">
+        <div class="role-title">🙋 Client</div>
+        <ul>
+          <li>Browse all available vehicles</li>
+          <li>Create reservations</li>
+          <li>Pay via PayPal or mock</li>
+          <li>View own bookings only</li>
+          <li>Update personal profile</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Important Functions & Components -->
+  <div class="section">
+    <h2><span class="section-number">8</span>Important Functions &amp; Components</h2>
+
+    <h3>AuthContext — Global Authentication Brain</h3>
+    <p>Every component in the app can access who is logged in via one hook:</p>
+    <pre><code><span class="kw">const</span> { user, login, logout, isAdmin, hasRole } = <span class="fn">useAuth</span>();
+
+<span class="cm">// Check if current user is admin/manager</span>
+<span class="kw">if</span> (<span class="fn">isAdmin</span>()) { <span class="cm">/* show admin controls */</span> }
+
+<span class="cm">// Check specific role</span>
+<span class="kw">if</span> (<span class="fn">hasRole</span>(<span class="str">'super_admin'</span>)) { <span class="cm">/* super admin only */</span> }</code></pre>
+
+    <h3>API Service Layer — Keeping HTTP Clean</h3>
+    <p>All API calls go through service files. Controllers never use Axios directly — they call a service function:</p>
+    <pre><code><span class="cm">// services/vehicleService.js</span>
+<span class="kw">const</span> vehicleService = {
+  list:   (params) => <span class="fn">api.get</span>(<span class="str">'/vehicles'</span>, { params }),
+  get:    (id)     => <span class="fn">api.get</span>(<span class="str">`/vehicles/${id}`</span>),
+  create: (data)   => <span class="fn">api.post</span>(<span class="str">'/vehicles'</span>, data),
+  update: (id, data) => <span class="fn">api.put</span>(<span class="str">`/vehicles/${id}`</span>, data),
+  delete: (id)     => <span class="fn">api.delete</span>(<span class="str">`/vehicles/${id}`</span>),
+};</code></pre>
+
+    <h3>Real-Time Availability Check</h3>
+    <p>In the booking modal, as soon as a client picks dates, availability is checked automatically:</p>
+    <pre><code><span class="cm">// Fires every time startDate or endDate changes</span>
+<span class="fn">useEffect</span>(() => {
+  <span class="kw">if</span> (startDate && endDate) <span class="fn">checkAvail</span>();
+}, [startDate, endDate]);
+
+<span class="kw">const</span> days = <span class="fn">calcDays</span>(startDate, endDate);     <span class="cm">// e.g. 5 days</span>
+<span class="kw">const</span> total = days * vehicle.daily_rate;        <span class="cm">// e.g. $250.00</span></code></pre>
+
+    <h3>ApiResponse Trait (Backend)</h3>
+    <p>Every API response shares the same JSON structure — the frontend always knows what to expect:</p>
+    <pre><code><span class="cm">// Success response</span>
+{ <span class="str">"success"</span>: <span class="kw">true</span>,  <span class="str">"message"</span>: <span class="str">"Vehicles retrieved."</span>, <span class="str">"data"</span>: [...] }
+
+<span class="cm">// Error response</span>
+{ <span class="str">"success"</span>: <span class="kw">false</span>, <span class="str">"message"</span>: <span class="str">"Unauthorized."</span>,        <span class="str">"data"</span>: <span class="kw">null</span>  }</code></pre>
+
+    <h3>Role Middleware (Backend)</h3>
+    <p>Routes are protected at the Laravel routing layer — the wrong role can never reach the controller:</p>
+    <pre><code><span class="cm">// Only super_admin and admin can access these routes</span>
+<span class="cls">Route</span>::<span class="fn">middleware</span>([<span class="str">'jwt.auth'</span>, <span class="str">'role:super_admin,admin'</span>])-><span class="fn">group</span>(<span class="kw">function</span>() {
+    <span class="cls">Route</span>::<span class="fn">get</span>(<span class="str">'/admin/users'</span>, [<span class="cls">UserController</span>::<span class="kw">class</span>, <span class="str">'index'</span>]);
+    <span class="cls">Route</span>::<span class="fn">delete</span>(<span class="str">'/admin/users/{id}'</span>, [<span class="cls">UserController</span>::<span class="kw">class</span>, <span class="str">'destroy'</span>]);
+});</code></pre>
+
+    <h3>Reservation Model — Business Logic</h3>
+    <p>The Reservation Eloquent model includes scopes and helper methods that keep query code clean:</p>
+    <pre><code><span class="cm">// Query scopes — filter reservations by status</span>
+<span class="cls">Reservation</span>::<span class="fn">pending</span>()-><span class="fn">get</span>();    <span class="cm">// WHERE status = 'pending'</span>
+<span class="cls">Reservation</span>::<span class="fn">confirmed</span>()-><span class="fn">get</span>();  <span class="cm">// WHERE status = 'confirmed'</span>
+<span class="cls">Reservation</span>::<span class="fn">active</span>()-><span class="fn">get</span>();     <span class="cm">// WHERE status IN ('pending','confirmed')</span>
+
+<span class="cm">// Status check methods</span>
+$reservation-><span class="fn">isPending</span>();    <span class="cm">// true / false</span>
+$reservation-><span class="fn">isCancelled</span>(); <span class="cm">// true / false</span>
+$reservation-><span class="fn">isPaid</span>();       <span class="cm">// true / false</span></code></pre>
+  </div>
+
+  <!-- 9. Architecture Patterns -->
+  <div class="section">
+    <h2><span class="section-number">9</span>Architecture &amp; Design Patterns</h2>
+
+    <table>
+      <thead><tr><th>Pattern</th><th>Where Used</th><th>Why It Matters</th></tr></thead>
+      <tbody>
+        <tr><td>Service Layer</td><td>Backend — ReservationService, VehicleService, PaymentService</td><td>Keeps controllers thin; business rules are testable in isolation</td></tr>
+        <tr><td>Repository Pattern</td><td>Backend — Repositories/Interfaces</td><td>Swapping the database doesn't break business logic</td></tr>
+        <tr><td>Context API</td><td>Frontend — AuthContext, ThemeContext, ToastContext</td><td>Global state without a heavy library like Redux</td></tr>
+        <tr><td>Service Abstraction</td><td>Frontend — services/*.js files</td><td>API URLs are in one place; easy to change base URL</td></tr>
+        <tr><td>Layout Pattern</td><td>Frontend — AuthLayout, ClientLayout, AdminLayout</td><td>Shared navigation/sidebar without repeating code on every page</td></tr>
+        <tr><td>Form Request Validation</td><td>Backend — Requests/*.php</td><td>Validation logic stays out of controllers</td></tr>
+        <tr><td>Soft Deletes</td><td>Backend — Reservation model</td><td>Deleted records are hidden, not gone — recoverable audit trail</td></tr>
+        <tr><td>Activity Logging</td><td>Backend — ActivityLog model</td><td>Every important action (confirm, cancel, pay) is recorded</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. Conclusion -->
+  <div class="section">
+    <h2><span class="section-number">10</span>Conclusion</h2>
+
+    <p>
+      <strong>CarsRental</strong> is a well-architected, production-grade web application that demonstrates
+      how a modern full-stack project is built from scratch. It covers the entire car rental lifecycle —
+      from a customer browsing cars on a beautiful glassmorphism UI, to an admin confirming bookings
+      and monitoring revenue on their dashboard.
+    </p>
+
+    <div class="info-box">
+      <strong>What makes this project stand out:</strong><br/>
+      ✅ Clean architecture (thin controllers, fat services, repository abstraction)<br/>
+      ✅ Secure by design (JWT + role middleware on every sensitive route)<br/>
+      ✅ Real payment integration (PayPal) with a fallback mock option<br/>
+      ✅ Modern UI (React 19, Tailwind, glassmorphism, dark mode, responsive)<br/>
+      ✅ Full audit trail (ActivityLog tracks every reservation action)<br/>
+      ✅ Role isolation (4 roles, each with their own views and permissions)<br/>
+      ✅ Developer-friendly (Docker/Sail, ESLint, Zod validation, form hooks)
+    </div>
+
+    <h3>Technology Summary</h3>
+    <table>
+      <thead><tr><th>Layer</th><th>Technology</th></tr></thead>
+      <tbody>
+        <tr><td>UI Framework</td><td>React 19</td></tr>
+        <tr><td>Routing</td><td>React Router 7</td></tr>
+        <tr><td>Styling</td><td>Tailwind CSS + Custom CSS (glassmorphism)</td></tr>
+        <tr><td>Build Tool</td><td>Vite</td></tr>
+        <tr><td>HTTP Client</td><td>Axios (with JWT interceptors)</td></tr>
+        <tr><td>Form Validation</td><td>React Hook Form + Zod</td></tr>
+        <tr><td>Server Framework</td><td>Laravel 12 (PHP 8.2+)</td></tr>
+        <tr><td>Authentication</td><td>JWT (tymon/jwt-auth)</td></tr>
+        <tr><td>Authorization</td><td>Spatie Laravel Permission</td></tr>
+        <tr><td>Database ORM</td><td>Eloquent (MySQL / PostgreSQL)</td></tr>
+        <tr><td>Payments</td><td>PayPal REST API + Mock</td></tr>
+        <tr><td>Testing</td><td>PHPUnit</td></tr>
+        <tr><td>Dev Environment</td><td>Laravel Sail (Docker)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <strong>CarsRental</strong> — Full-Stack Car Rental Management Platform<br/>
+  React 19 &nbsp;|&nbsp; Laravel 12 &nbsp;|&nbsp; JWT Auth &nbsp;|&nbsp; PayPal &nbsp;|&nbsp; Tailwind CSS
+</div>
+
+</body>
+</html>
