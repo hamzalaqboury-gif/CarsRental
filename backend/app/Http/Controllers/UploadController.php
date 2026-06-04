@@ -36,7 +36,7 @@ class UploadController extends Controller
     public function uploadAvatar(Request $request): JsonResponse
     {
         $request->validate([
-            'avatar' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'avatar' => ['required', 'file', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
         ]);
 
         try {

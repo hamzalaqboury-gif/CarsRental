@@ -23,7 +23,7 @@ class StoreVehicleRequest extends FormRequest
             'seats'         => ['nullable', 'integer', 'min:1', 'max:20'],
             'color'         => ['nullable', 'string', 'max:50'],
             'license_plate' => ['nullable', 'string', 'max:20', 'unique:vehicles,license_plate'],
-            'image'         => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:5120'],
+            'image'         => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
         ];
     }
 }

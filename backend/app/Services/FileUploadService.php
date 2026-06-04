@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class FileUploadService
 {
-    private const ALLOWED_IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp'];
+    private const ALLOWED_IMAGE_MIMES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
     private const ALLOWED_DOC_MIMES   = ['image/jpeg', 'image/png', 'application/pdf'];
     private const MAX_IMAGE_SIZE      = 5120;  // 5 MB in KB
     private const MAX_DOC_SIZE        = 10240; // 10 MB in KB
