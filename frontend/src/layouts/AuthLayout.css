@@ -1,0 +1,199 @@
+/* ── Auth Layout — video background ── */
+
+.auth-layout {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* ── Video background container ── */
+.auth-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0a0a0a; /* fallback while video loads */
+}
+
+/*
+ * Cover-fill technique for 16:9 iframes:
+ * The iframe is centered and scaled so it always fills the viewport,
+ * regardless of the screen's aspect ratio.
+ */
+.auth-video-iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* At least 100vw wide and 100vh tall — whichever is larger wins */
+  width: 100vw;
+  height: 56.25vw;   /* 100vw ÷ 16 × 9 */
+  min-height: 100vh;
+  min-width: 177.78vh; /* 100vh ÷ 9 × 16 */
+  border: none;
+  pointer-events: none; /* clicks pass through to the form */
+}
+
+/* ── Dark overlay for readability ── */
+.auth-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.52);
+  /* Subtle vignette to draw focus toward the center */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.38) 0%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
+}
+
+/* ── Content sits above video + overlay ── */
+.auth-layout-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 28rem; /* matches Tailwind max-w-md */
+}
+
+/* ── Header text — always white over the video ── */
+.auth-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.auth-header-subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 0.25rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Theme-toggle button ── */
+.auth-theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.auth-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Glassmorphism login card ── */
+.auth-glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transition: box-shadow 0.3s ease;
+}
+
+.auth-glass-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* ── Inputs inside glass card ── */
+.auth-glass-card .input {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-radius: 10px;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-glass-card .input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.auth-glass-card .input:focus {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+  outline: none;
+}
+
+.auth-glass-card .input.input-error {
+  border-color: rgba(252, 165, 165, 0.65) !important;
+}
+
+.auth-glass-card .input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.2) !important;
+}
+
+/* ── Labels inside glass card ── */
+.auth-glass-card .label {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+/* ── Error text inside glass card ── */
+.auth-glass-card .error-text {
+  color: #fca5a5 !important;
+}
+
+/* ── Primary button inside glass card ── */
+.auth-glass-card .btn-primary {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s !important;
+}
+
+.auth-glass-card .btn-primary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+.auth-glass-card .btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ── Demo accounts section ── */
+.auth-glass-card .auth-demo-section {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+}
+
+/* ── Responsive — on very small screens add extra top padding ── */
+@media (max-width: 480px) {
+  .auth-layout {
+    align-items: flex-start;
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .auth-layout-content {
+    max-width: 100%;
+  }
+
+  .auth-glass-card {
+    border-radius: 16px;
+  }
+}

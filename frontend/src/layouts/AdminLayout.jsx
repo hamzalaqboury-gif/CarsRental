@@ -9,6 +9,8 @@ import { useToast } from '../context/ToastContext';
 import { useTheme } from '../context/ThemeContext';
 import { PageLoader } from '../components/common/LoadingSpinner';
 import { ROLES } from '../utils/constants';
+import { getImageUrl } from '../utils/helpers';
+import ChatWidget from '../components/chat/ChatWidget';
 
 const navItems = [
   { to: '/admin/dashboard',    icon: LayoutDashboard, label: 'Dashboard',    roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.MANAGER] },
@@ -30,7 +32,7 @@ function Sidebar({ open, onClose }) {
       {open && <div className="fixed inset-0 z-20 bg-black/30 lg:hidden" onClick={onClose} />}
       <aside className={`fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 dark:bg-gray-950 text-white flex flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
         <div className="flex items-center gap-3 px-5 py-5 border-b border-gray-700/50">
-          <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center text-lg">🚗</div>
+          
           <div>
             <div className="font-bold text-sm">CarsRental</div>
             <div className="text-xs text-gray-400 capitalize">{role}</div>
@@ -91,9 +93,17 @@ export default function AdminLayout({ children }) {
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{user.name}</p>
               <p className="text-xs text-gray-400 dark:text-gray-500">{user.email}</p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center text-sm font-semibold">
-              {user.name?.[0]?.toUpperCase()}
-            </div>
+            {user.avatar ? (
+              <img
+                src={getImageUrl(user.avatar)}
+                alt={user.name}
+                className="w-8 h-8 rounded-full object-cover ring-2 ring-primary-100 dark:ring-primary-900/50"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center text-sm font-semibold">
+                {user.name?.[0]?.toUpperCase()}
+              </div>
+            )}
             <button
               onClick={toggle}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
@@ -105,6 +115,7 @@ export default function AdminLayout({ children }) {
         </header>
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>
       </div>
+      <ChatWidget />
     </div>
   );
 }

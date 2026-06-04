@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useTheme } from '../context/ThemeContext';
 import { PageLoader } from '../components/common/LoadingSpinner';
+import { getImageUrl } from '../utils/helpers';
+import ChatWidget from '../components/chat/ChatWidget';
 
 const navItems = [
   { to: '/client/dashboard',    icon: LayoutDashboard, label: 'Dashboard' },
@@ -31,7 +33,7 @@ export default function ClientLayout({ children }) {
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 flex items-center h-14 gap-4">
           <Link to="/client/dashboard" className="flex items-center gap-2 font-bold text-primary-600 mr-4">
-            <span className="text-xl">🚗</span> CarsRental
+            <span className="text-xl"></span> CarsRental
           </Link>
           <div className="hidden md:flex items-center gap-1 flex-1">
             {navItems.map(({ to, icon: Icon, label }) => (
@@ -48,9 +50,17 @@ export default function ClientLayout({ children }) {
           </div>
           <div className="ml-auto flex items-center gap-2">
             <span className="hidden sm:block text-sm text-gray-600 dark:text-gray-300">{user.name}</span>
-            <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center text-sm font-semibold">
-              {user.name?.[0]?.toUpperCase()}
-            </div>
+            {user.avatar ? (
+              <img
+                src={getImageUrl(user.avatar)}
+                alt={user.name}
+                className="w-8 h-8 rounded-full object-cover ring-2 ring-primary-100 dark:ring-primary-900/50"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center text-sm font-semibold">
+                {user.name?.[0]?.toUpperCase()}
+              </div>
+            )}
             <button
               onClick={toggle}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
@@ -83,6 +93,7 @@ export default function ClientLayout({ children }) {
         )}
       </nav>
       <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
+      <ChatWidget />
     </div>
   );
 }

@@ -1,0 +1,12 @@
+# Railway Nixpacks — React 18 frontend (static SPA)
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npx --yes serve -s dist -l tcp://0.0.0.0:$PORT"

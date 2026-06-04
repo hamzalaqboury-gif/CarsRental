@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboard;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
@@ -10,8 +11,15 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
-// ─── Health check (Railway deployment) ───────────────────────────────────────
+// ─── Health check (Railway / Render deployment) ───────────────────────────────
 Route::get('health', fn () => response()->json(['status' => 'ok', 'timestamp' => now()]));
+
+// ─── Chatbot (public + authentifié) ───────────────────────────────────────────
+Route::prefix('chat')->group(function () {
+    Route::post('message', [ChatController::class, 'sendMessage']);
+    Route::get('history',  [ChatController::class, 'history']);
+    Route::delete('session', [ChatController::class, 'clearSession']);
+});
 
 // ─── Public Auth routes ───────────────────────────────────────────────────────
 Route::prefix('auth')->group(function () {

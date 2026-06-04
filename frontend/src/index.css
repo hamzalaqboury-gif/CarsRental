@@ -62,3 +62,13 @@
   .page-title { @apply text-2xl font-bold text-gray-900 dark:text-gray-100; }
   .page-subtitle { @apply text-sm text-gray-500 mt-1 dark:text-gray-400; }
 }
+
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+@keyframes chatFadeIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

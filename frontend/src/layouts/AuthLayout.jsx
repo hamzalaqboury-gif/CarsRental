@@ -4,6 +4,16 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { PageLoader } from '../components/common/LoadingSpinner';
 import { ROLES } from '../utils/constants';
+import './AuthLayout.css';
+
+const YT_VIDEO_ID = 'YAFUyPp_238';
+const YT_SRC =
+  `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
+  '?autoplay=1&mute=1&loop=1' +
+  `&playlist=${YT_VIDEO_ID}` +
+  '&controls=0&showinfo=0&rel=0' +
+  '&modestbranding=1&iv_load_policy=3' +
+  '&disablekb=1&fs=0&playsinline=1';
 
 export default function AuthLayout({ children }) {
   const { user, loading } = useAuth();
@@ -17,23 +27,38 @@ export default function AuthLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center p-4 relative">
+    <div className="auth-layout">
+      {/* ── YouTube background video ── */}
+      <div className="auth-video-bg" aria-hidden="true">
+        <iframe
+          className="auth-video-iframe"
+          src={YT_SRC}
+          title="Background video"
+          allow="autoplay; encrypted-media"
+          allowFullScreen={false}
+        />
+      </div>
+
+      {/* ── Dark overlay for readability ── */}
+      <div className="auth-video-overlay" aria-hidden="true" />
+
+      {/* ── Theme toggle ── */}
       <button
         onClick={toggle}
-        className="absolute top-4 right-4 p-2 rounded-lg bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 shadow-sm transition-colors"
+        className="auth-theme-toggle"
         title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       >
         {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
       </button>
-      <div className="w-full max-w-md">
+
+      {/* ── Page content ── */}
+      <div className="auth-layout-content">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-600 rounded-2xl mb-4 shadow-lg">
-            <span className="text-2xl">🚗</span>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">CarsRental</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Premium Vehicle Rental Management</p>
+         
+          <h1 className="auth-header-title">CarsRental</h1>
+          <p className="auth-header-subtitle">Premium Vehicle Rental Management</p>
         </div>
-        <div className="card p-8 shadow-lg">{children}</div>
+        <div className="auth-glass-card p-8">{children}</div>
       </div>
     </div>
   );

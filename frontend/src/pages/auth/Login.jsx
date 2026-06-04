@@ -15,10 +15,10 @@ const schema = z.object({
 });
 
 const DEMO_ACCOUNTS = [
-  { label: 'Super Admin', email: 'superadmin@carsrental.com', password: 'SuperAdmin@123', color: 'bg-purple-100 text-purple-800 hover:bg-purple-200' },
-  { label: 'Admin',       email: 'admin@carsrental.com',      password: 'Admin@123456',   color: 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200' },
-  { label: 'Manager',     email: 'manager@carsrental.com',    password: 'Manager@123',    color: 'bg-sky-100 text-sky-800 hover:bg-sky-200' },
-  { label: 'Client',      email: 'client@carsrental.com',     password: 'Client@123456',  color: 'bg-teal-100 text-teal-800 hover:bg-teal-200' },
+  { label: 'Super Admin', email: 'superadmin@carsrental.com', password: 'SuperAdmin@123', color: 'bg-purple-500/20 text-white border border-purple-400/30 hover:bg-purple-500/35' },
+  { label: 'Admin',       email: 'admin@carsrental.com',      password: 'Admin@123456',   color: 'bg-indigo-500/20 text-white border border-indigo-400/30 hover:bg-indigo-500/35' },
+  { label: 'Manager',     email: 'manager@carsrental.com',    password: 'Manager@123',    color: 'bg-sky-500/20 text-white border border-sky-400/30 hover:bg-sky-500/35' },
+  { label: 'Client',      email: 'client@carsrental.com',     password: 'Client@123456',  color: 'bg-teal-500/20 text-white border border-teal-400/30 hover:bg-teal-500/35' },
 ];
 
 export default function Login() {
@@ -63,8 +63,8 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Welcome back</h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Sign in to your account</p>
+      <h2 className="text-xl font-bold text-white mb-1" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>Welcome back</h2>
+      <p className="text-sm text-white/70 mb-6">Sign in to your account</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -83,13 +83,13 @@ export default function Login() {
         </button>
       </form>
 
-      <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-5">
+      <p className="text-center text-sm text-white/70 mt-5">
         Don't have an account?{' '}
-        <Link to="/register" className="text-primary-600 dark:text-primary-400 font-medium hover:underline">Create one</Link>
+        <Link to="/register" className="text-white font-semibold hover:underline hover:text-white/90 transition-colors">Create one</Link>
       </p>
 
-      <div className="mt-5 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-        <p className="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">Quick login — demo accounts</p>
+      <div className="auth-demo-section mt-5 p-3">
+        <p className="text-xs font-semibold text-white/80 mb-2">Quick login — demo accounts</p>
         <div className="grid grid-cols-2 gap-2">
           {DEMO_ACCOUNTS.map(account => (
             <button
